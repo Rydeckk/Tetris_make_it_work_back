@@ -8,26 +8,23 @@ export class BoardsTetrisService {
   constructor(private readonly prisma: PrismaService) {}
 
   create(createBoardsTetriDto: CreateBoardsTetriDto) {
+    const stepBoardToCreate = [
+      { name: 'To Do', order: 1},
+      { name: 'In progress', order: 2},
+      { name: 'Finish', order: 3}]
     return this.prisma.boardsTetris.create(
       {
         data: {
           name: createBoardsTetriDto.name,
           stepBoardTetris: {
             createMany: {
-              data: [
-                {
-                  name: 'To Do',
-                  order: 1
-                },
-                {
-                  name: 'In progress',
-                  order: 2
-                },
-                {
-                  name: 'Finish',
-                  order: 3
-                },
-              ]
+              data: 
+                stepBoardToCreate,
+            },
+          },
+          usersBoards: {
+            createMany: {
+              data: createBoardsTetriDto.usersId.map((userId) => ({userId}))
             }
           }
         }

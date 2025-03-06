@@ -9,19 +9,20 @@ export class StepBoardTetrisService {
 constructor(private readonly prisma: PrismaService) {}
 
   async create(createStepBoardTetriDto: CreateStepBoardTetriDto) {
-    const maxOrder: number = await +this.prisma.stepBoardTetris.aggregate({
+    const maxStepOrder = await this.prisma.stepBoardTetris.findFirst({
       where: {boardTetrisId: createStepBoardTetriDto.boardTetrisId},
-      _max: {
-        order: true
-      }
-    });
+      orderBy: {order: "desc"}
+    })
 
     return this.prisma.stepBoardTetris.create({
       data: {
         name: createStepBoardTetriDto.name,
-        row: createStepBoardTetriDto.row,
-        boardTetrisId: createStepBoardTetriDto.boardTetrisId,
-        order: maxOrder + 1
+        boardTetris: {
+          connect: {
+            id: createStepBoardTetriDto.boardTetrisId
+          }
+        },
+        order: maxStepOrder.order + 1
       }
     });
   }

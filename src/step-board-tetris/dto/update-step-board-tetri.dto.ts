@@ -3,15 +3,15 @@ import { CreateStepBoardTetriDto } from './create-step-board-tetri.dto';
 import { IsInt, IsOptional, IsString } from 'class-validator';
 
 export class UpdateStepBoardTetriDto extends PartialType(CreateStepBoardTetriDto) {
+    @IsOptional()
     @IsString()
-    @IsOptional()
-    name?: string
+    name: string
     
-    @IsInt()
     @IsOptional()
-    row?: number
+    @IsInt()
+    row: number
 
-    @IsInt()
     @IsOptional()
-    order?: number
+    @IsInt()
+    order: number
 }

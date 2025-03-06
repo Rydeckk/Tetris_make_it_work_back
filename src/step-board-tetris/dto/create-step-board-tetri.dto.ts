@@ -1,12 +1,11 @@
-import { IsInt, IsString, IsUUID } from "class-validator";
+import { IsInt, IsNotEmpty, IsString, IsUUID } from "class-validator";
 
 export class CreateStepBoardTetriDto {
+    @IsNotEmpty()
     @IsString()
     name: string
 
-    @IsInt()
-    row: number
-
+    @IsNotEmpty()
     @IsUUID()
     boardTetrisId: string
 }

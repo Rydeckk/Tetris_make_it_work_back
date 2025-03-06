@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Request } from '@nestjs/common';
 import { BoardsTetrisService } from './boards-tetris.service';
 import { CreateBoardsTetriDto } from './dto/create-boards-tetri.dto';
 import { UpdateBoardsTetriDto } from './dto/update-boards-tetri.dto';
+import { RequestWithUser } from 'src/@types/request';
 
 @Controller('boards')
 export class BoardsTetrisController {
@@ -13,8 +14,8 @@ export class BoardsTetrisController {
   }
 
   @Get()
-  findAll() {
-    return this.boardsTetrisService.findAll();
+  findAll(@Request() req: RequestWithUser) {
+    return this.boardsTetrisService.findAll(req.user.sub);
   }
 
   @Get(':id')
