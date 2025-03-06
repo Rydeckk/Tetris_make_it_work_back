@@ -1,20 +1,19 @@
-import { IsArray, IsNotEmpty, IsOptional, IsString, IsUUID } from "class-validator";
+import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID } from "class-validator";
 export class CreateUserSkill{
   
     @IsOptional()
-    @IsOptional()
     description: string;
   
-    @IsArray()
     @IsString({ each: true })
     user: string;
 
     @IsOptional()
-    @IsUUID("4", { each: true })
+    @IsNumber()
     weight: number;
 
-    @IsArray()
+    //@IsArray()
     @IsUUID("4", { each: true })
-    skill: string;
-  
+    skillId: string;
+    
+    
   }

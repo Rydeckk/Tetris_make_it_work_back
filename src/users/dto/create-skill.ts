@@ -5,15 +5,12 @@ export class CreateSkillDto {
   @IsString()
   name: string;
 
-  @IsOptional()
+  @IsNotEmpty()
   @IsString()
-  description: string;
+  image: string;
+
 
   @IsArray()
   @IsUUID("4", { each: true })
   users: string[];
-
-  @IsNotEmpty()
-  @IsUUID()
-  userSkillId: string;
 }

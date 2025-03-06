@@ -19,21 +19,36 @@ export class SkillsService {
     }
 
     async createSkill(skillData: CreateSkillDto) {
-        return this.prisma.skills.create({ data: skillData });
+       
+        return this.prisma.skills.create({ data: {
+            name: skillData.name,
+            image: skillData.image,
+            //userSkill: 
+        }});
     }
 
     async affectSkillUser(skillData: CreateUserSkill) {
         return this.prisma.usersSkills.create({ data: {
-            skillId: skillData.skill,
+            skillId: skillData.skillId,
             userId: skillData.user,
-            weight: skillData.weight,
-
+            weight: skillData.weight
+            //image: skillData.image,
         } });
     }
 
-    async deleteSkill(skillData: CreateSkillDto) {
-        return this.prisma.skills.delete({ where: 
-            { id: skillData.userSkillId }
-         });
+    async getSkillbyUserId(userId: string){
+        return this.prisma.usersSkills.findMany({where: {userId}})
     }
+    /*async changeSkillUser(skillData: CreateUserSkill) {
+        return this.prisma.usersSkills.update({ where: { userId: skillData.user }, data: {
+            skillId: skillData.skill,
+            userId: skillData.user,
+            weight: skillData.weight,
+            //image: skillData.image,
+        } });
+    }*/
+
+    /*async deleteSkill(skillData: CreateSkillDto) {
+        return this.prisma.skills.delete({ where: { name: skillData.name } });
+    }*/
 }
