@@ -30,6 +30,7 @@ export class StepBoardTetrisService {
   findAll(findAllByBoardDto: FindAllByBoardDto) {
     return this.prisma.stepBoardTetris.findMany({
       where: { boardTetrisId: findAllByBoardDto.boardTetrisId },
+      orderBy: { order: 'asc' },
     });
   }
 
