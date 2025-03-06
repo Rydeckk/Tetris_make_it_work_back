@@ -12,3 +12,48 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id String 
+  name String
+}
+
+model Skills{
+  id String
+  name String
+}
+
+
+model UsersSkills{
+  userId User
+  skillsld Skills
+  weight Int
+}
+
+model BoardsTetris{
+  id String
+  rowBoardId RowsBoadTetris[]
+}
+
+model UserBoard{
+  userId User
+  boardTetrisId BoardsTetris
+}
+
+model StepBoardTetris{
+  id String 
+  boardTetrisId BoardsTetris
+  name String
+}
+
+model TachesSkills{
+  tachesId String 
+  skillsId String   
+}
+
+model Taches {
+  id String
+  name String
+  entreprise String 
+  stepBoardTetrisId StepBoardTetris
+}
