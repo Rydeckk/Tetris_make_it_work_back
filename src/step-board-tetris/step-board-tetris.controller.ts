@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { StepBoardTetrisService } from './step-board-tetris.service';
 import { CreateStepBoardTetriDto } from './dto/create-step-board-tetri.dto';
 import { UpdateStepBoardTetriDto } from './dto/update-step-board-tetri.dto';
@@ -6,7 +14,9 @@ import { FindAllByBoardDto } from './dto/find-all-by-board.dto';
 
 @Controller('step-board')
 export class StepBoardTetrisController {
-  constructor(private readonly stepBoardTetrisService: StepBoardTetrisService) {}
+  constructor(
+    private readonly stepBoardTetrisService: StepBoardTetrisService,
+  ) {}
 
   @Post()
   create(@Body() createStepBoardTetriDto: CreateStepBoardTetriDto) {
@@ -19,7 +29,10 @@ export class StepBoardTetrisController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateStepBoardTetriDto: UpdateStepBoardTetriDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateStepBoardTetriDto: UpdateStepBoardTetriDto,
+  ) {
     return this.stepBoardTetrisService.update(id, updateStepBoardTetriDto);
   }
 
