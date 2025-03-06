@@ -14,12 +14,14 @@ datasource db {
 }
 
 model Users {
-  id         String        @id @unique @default(uuid())
-  name       String
-  email      String        @unique
-  password   String
-  userSkills UsersSkills[]
-  userBoards UsersBoards[]
+  id                        String         @id @unique @default(uuid())
+  name                      String
+  email                     String         @unique
+  password                  String
+  userSkills                UsersSkills[]
+  userBoards                UsersBoards[]
+  userNotificationsReceived Notification[] @relation(name: "recipientNotifications")
+  userNotificationsSend     Notification[] @relation(name: "senderNotifications")
 
   @@map("users")
 }
@@ -86,6 +88,7 @@ model Tasks {
   stepBoardTetrisId String          @map("step_board_tetris_id")
   skillsTasks       SkillsTasks[]
   updatedAt         DateTime        @updatedAt @map("updated_at")
+  notifications     Notification[]
 
   @@map("tasks")
 }
@@ -99,4 +102,15 @@ model SkillsTasks {
 
   @@id([skillId, taskId])
   @@map("skills_on_tasks")
+}
+
+model Notification {
+  id          String @id @unique @default(uuid())
+  isActive    Boolean @default(true)
+  senderId    String @map("sender_id")
+  sender      Users  @relation(name: "senderNotifications", fields: [senderId], references: [id])
+  recipientId String @map("recipient_id")
+  recipient   Users  @relation(name: "recipientNotifications", fields: [recipientId], references: [id])
+  taskId      String @map("task_id")
+  task        Tasks  @relation(fields: [taskId], references: [id])
 }
