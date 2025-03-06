@@ -58,6 +58,7 @@ model UsersBoards {
 model BoardsTetris {
   id              String            @id @unique @default(uuid())
   name            String
+  column          Int               @default(10)
   stepBoardTetris StepBoardTetris[]
   usersBoards     UsersBoards[]
 
@@ -70,8 +71,8 @@ model StepBoardTetris {
   boardTetris   BoardsTetris @relation(fields: [boardTetrisId], references: [id])
   boardTetrisId String       @map("board_tetris_id")
   tasks         Tasks[]
-  column        Int
-  row           Int
+  row           Int          @default(5)
+  order         Int
 
   @@map("step_board_tetris")
 }
