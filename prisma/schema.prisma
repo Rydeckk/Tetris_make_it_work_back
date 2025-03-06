@@ -25,9 +25,9 @@ model Users {
 }
 
 model UsersSkills {
-  user    Users  @relation(fields: [userId], references: [id])
+  user    Users  @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId  String @map("user_id")
-  skill   Skills @relation(fields: [skillId], references: [id])
+  skill   Skills @relation(fields: [skillId], references: [id], onDelete: Cascade)
   skillId String @map("skill_id")
   weight  Int    @default(0)
 
@@ -48,7 +48,7 @@ model Skills {
 model UsersBoards {
   user          Users        @relation(fields: [userId], references: [id])
   userId        String       @map("user_id")
-  boardTetris   BoardsTetris @relation(fields: [boardTetrisId], references: [id])
+  boardTetris   BoardsTetris @relation(fields: [boardTetrisId], references: [id], onDelete: Cascade)
   boardTetrisId String       @map("board_tetris_id")
 
   @@id([userId, boardTetrisId])
@@ -67,7 +67,7 @@ model BoardsTetris {
 model StepBoardTetris {
   id            String       @id @unique @default(uuid())
   name          String
-  boardTetris   BoardsTetris @relation(fields: [boardTetrisId], references: [id])
+  boardTetris   BoardsTetris @relation(fields: [boardTetrisId], references: [id], onDelete: Cascade)
   boardTetrisId String       @map("board_tetris_id")
   tasks         Tasks[]
   column        Int
@@ -81,7 +81,7 @@ model Tasks {
   name              String
   company           String
   description       String
-  stepBoardTetris   StepBoardTetris @relation(fields: [stepBoardTetrisId], references: [id])
+  stepBoardTetris   StepBoardTetris @relation(fields: [stepBoardTetrisId], references: [id], onDelete: Cascade)
   stepBoardTetrisId String          @map("step_board_tetris_id")
   skillsTasks       SkillsTasks[]
   updatedAt         DateTime        @updatedAt @map("updated_at")
@@ -90,10 +90,10 @@ model Tasks {
 }
 
 model SkillsTasks {
-  skill   Skills @relation(fields: [skillId], references: [id])
+  skill   Skills @relation(fields: [skillId], references: [id], onDelete: Cascade)
   skillId String @map("skill_id")
 
-  task   Tasks  @relation(fields: [taskId], references: [id])
+  task   Tasks  @relation(fields: [taskId], references: [id], onDelete: Cascade)
   taskId String @map("task_id")
 
   @@id([skillId, taskId])
