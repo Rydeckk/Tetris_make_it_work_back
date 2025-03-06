@@ -1,12 +1,20 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from './auth/auth.guard';
+import { TasksModule } from './tasks/tasks.module';
 import { BoardsTetrisModule } from './boards-tetris/boards-tetris.module';
 import { StepBoardTetrisModule } from './step-board-tetris/step-board-tetris.module';
 
 @Module({
-  imports: [BoardsTetrisModule, StepBoardTetrisModule],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [AuthModule, UsersModule, TasksModule, BoardsTetrisModule, StepBoardTetrisModule],
+  controllers: [],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+  ],
 })
 export class AppModule {}

@@ -16,6 +16,8 @@ datasource db {
 model Users {
   id         String        @id @unique @default(uuid())
   name       String
+  email      String        @unique
+  password   String
   userSkills UsersSkills[]
   userBoards UsersBoards[]
 
@@ -27,7 +29,7 @@ model UsersSkills {
   userId  String @map("user_id")
   skill   Skills @relation(fields: [skillId], references: [id])
   skillId String @map("skill_id")
-  weight  Int
+  weight  Int    @default(0)
 
   @@id([userId, skillId])
   @@map("users_skills")
@@ -79,9 +81,11 @@ model Tasks {
   id                String          @id @unique @default(uuid())
   name              String
   company           String
+  description       String
   stepBoardTetris   StepBoardTetris @relation(fields: [stepBoardTetrisId], references: [id])
   stepBoardTetrisId String          @map("step_board_tetris_id")
   skillsTasks       SkillsTasks[]
+  updatedAt         DateTime        @updatedAt @map("updated_at")
 
   @@map("tasks")
 }
