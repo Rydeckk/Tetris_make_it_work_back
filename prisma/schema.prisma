@@ -28,7 +28,7 @@ model UsersSkills {
   skill   Skills @relation(fields: [skillId], references: [id])
   skillId String @map("skill_id")
   weight  Int
-
+  
   @@id([userId, skillId])
   @@map("users_skills")
 }
@@ -39,7 +39,7 @@ model Skills {
   userSkill   UsersSkills[]
   userSkillId String        @map("user_skill_id")
   skillsTasks SkillsTasks[]
-
+  image      String       @default("https://cdn.iconscout.com/icon/free/png-256/programming-80-1175202.png")
   @@map("skills")
 }
 
