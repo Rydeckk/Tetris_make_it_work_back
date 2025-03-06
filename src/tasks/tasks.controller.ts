@@ -1,11 +1,14 @@
 import {
   Body,
+  ClassSerializerInterceptor,
   Controller,
   Delete,
   Get,
   Param,
   Post,
   Put,
+  SerializeOptions,
+  UseInterceptors,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/task.dto';
@@ -16,46 +19,48 @@ import { ApiCreatedResponse } from '@nestjs/swagger';
 export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
+  @UseInterceptors(ClassSerializerInterceptor)
+  @SerializeOptions({ type: TaskEntity })
   @Get()
   @ApiCreatedResponse({ type: TaskEntity, isArray: true })
-  async getAllTasks() {
-    const tasks = await this.tasksService.getAllTask();
-    return tasks.map((task) => new TaskEntity(task));
+  getAllTasks() {
+    return this.tasksService.getAllTask();
   }
 
+  @UseInterceptors(ClassSerializerInterceptor)
+  @SerializeOptions({ type: TaskEntity })
   @Get(':taskId')
   @ApiCreatedResponse({ type: TaskEntity })
-  async getTask(@Param('taskId') taskId: string) {
-    const task = await this.tasksService.getTask({
+  getTask(@Param('taskId') taskId: string) {
+    return this.tasksService.getTask({
       id: taskId,
     });
-    return new TaskEntity(task);
   }
 
+  @UseInterceptors(ClassSerializerInterceptor)
+  @SerializeOptions({ type: TaskEntity })
   @Post()
   @ApiCreatedResponse({ type: TaskEntity })
-  async createTask(@Body() body: CreateTaskDto) {
-    const task = await this.tasksService.createTask(body);
-    return new TaskEntity(task);
+  createTask(@Body() body: CreateTaskDto) {
+    return this.tasksService.createTask(body);
   }
 
+  @UseInterceptors(ClassSerializerInterceptor)
+  @SerializeOptions({ type: TaskEntity })
   @Put('taskId')
   @ApiCreatedResponse({ type: TaskEntity })
-  async updateTask(
-    @Param('taskId') taskId: string,
-    @Body() body: CreateTaskDto,
-  ) {
-    const task = await this.tasksService.updateTask({
+  updateTask(@Param('taskId') taskId: string, @Body() body: CreateTaskDto) {
+    return this.tasksService.updateTask({
       ...body,
       taskId,
     });
-    return new TaskEntity(task);
   }
 
+  @UseInterceptors(ClassSerializerInterceptor)
+  @SerializeOptions({ type: TaskEntity })
   @Delete(':taskId')
   @ApiCreatedResponse({ type: TaskEntity })
-  async deleteTask(@Param('taskId') taskId: string) {
-    const task = await this.tasksService.deleteTask(taskId);
-    return task;
+  deleteTask(@Param('taskId') taskId: string) {
+    return this.tasksService.deleteTask(taskId);
   }
 }
