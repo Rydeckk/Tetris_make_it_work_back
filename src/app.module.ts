@@ -6,6 +6,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { TasksModule } from './tasks/tasks.module';
 import { BoardsTetrisModule } from './boards-tetris/boards-tetris.module';
 import { StepBoardTetrisModule } from './step-board-tetris/step-board-tetris.module';
+import { NotificationModule } from './notification/notification.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { StepBoardTetrisModule } from './step-board-tetris/step-board-tetris.mod
     TasksModule,
     BoardsTetrisModule,
     StepBoardTetrisModule,
+    NotificationModule,
   ],
   controllers: [],
   providers: [
