@@ -7,6 +7,9 @@ import {
   ParseUUIDPipe,
   Request,
   Put,
+  ClassSerializerInterceptor,
+  UseInterceptors,
+  SerializeOptions,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/user.dto';
@@ -18,37 +21,41 @@ import { ApiCreatedResponse } from '@nestjs/swagger';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @UseInterceptors(ClassSerializerInterceptor)
+  @SerializeOptions({ type: UserEntity })
   @Get()
   @ApiCreatedResponse({ type: UserEntity, isArray: true })
-  async findAll() {
-    const users = await this.usersService.findAll();
-    return users.map((user) => new UserEntity(user));
+  findAll() {
+    return this.usersService.findAll();
   }
 
+  @UseInterceptors(ClassSerializerInterceptor)
+  @SerializeOptions({ type: UserEntity })
   @Get(':userId')
   @ApiCreatedResponse({ type: UserEntity })
-  async findOne(@Param('userId', ParseUUIDPipe) userId: string) {
-    const user = await this.usersService.findUser({
+  findOne(@Param('userId', ParseUUIDPipe) userId: string) {
+    return this.usersService.findUser({
       id: userId,
     });
-    return new UserEntity(user);
   }
 
+  @UseInterceptors(ClassSerializerInterceptor)
+  @SerializeOptions({ type: UserEntity })
   @Put(':userId')
-  async update(
+  update(
     @Param('userId') userId: string,
     @Body() updateUserDto: UpdateUserDto,
   ) {
-    const user = await this.usersService.update({
+    return this.usersService.update({
       ...updateUserDto,
       userId,
     });
-    return new UserEntity(user);
   }
 
+  @UseInterceptors(ClassSerializerInterceptor)
+  @SerializeOptions({ type: UserEntity })
   @Delete()
-  async deleteCurrentUser(@Request() req: RequestWithUser) {
-    const user = await this.usersService.deleteCurrentUser(req.user?.sub);
-    return new UserEntity(user);
+  deleteCurrentUser(@Request() req: RequestWithUser) {
+    return this.usersService.deleteCurrentUser(req.user?.sub);
   }
 }
