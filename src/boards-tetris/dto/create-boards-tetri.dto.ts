@@ -6,5 +6,5 @@ export class CreateBoardsTetriDto {
   name: string;
 
   @IsUUID('4', { each: true })
-  usersId: string[];
+  userIds: string[];
 }

@@ -9,5 +9,5 @@ export class UpdateBoardsTetriDto extends PartialType(CreateBoardsTetriDto) {
 
   @IsOptional()
   @IsUUID('4', { each: true })
-  usersId: string[];
+  userIds: string[];
 }

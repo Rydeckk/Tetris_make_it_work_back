@@ -24,7 +24,7 @@ export class BoardsTetrisService {
         },
         usersBoards: {
           createMany: {
-            data: createBoardsTetriDto.usersId.map((userId) => ({ userId })),
+            data: createBoardsTetriDto.userIds.map((userId) => ({ userId })),
           },
         },
       },

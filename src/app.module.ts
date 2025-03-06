@@ -8,7 +8,13 @@ import { BoardsTetrisModule } from './boards-tetris/boards-tetris.module';
 import { StepBoardTetrisModule } from './step-board-tetris/step-board-tetris.module';
 
 @Module({
-  imports: [AuthModule, UsersModule, TasksModule, BoardsTetrisModule, StepBoardTetrisModule],
+  imports: [
+    AuthModule,
+    UsersModule,
+    TasksModule,
+    BoardsTetrisModule,
+    StepBoardTetrisModule,
+  ],
   controllers: [],
   providers: [
     {
