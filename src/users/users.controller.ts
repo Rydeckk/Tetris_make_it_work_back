@@ -10,6 +10,7 @@ import {
   ClassSerializerInterceptor,
   UseInterceptors,
   SerializeOptions,
+  Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/user.dto';
@@ -17,13 +18,10 @@ import { RequestWithUser } from 'src/@types/request';
 import { UserEntity } from './entities/user.entity';
 import { ApiCreatedResponse } from '@nestjs/swagger';
 import { FindAllUserSkillsDto } from './dto/find-all-user-skills.dto';
-import { FindAllUserSkillsWeightDto } from './dto/find-all-user-skills-weight.dto';
-
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
-
 
   @UseInterceptors(ClassSerializerInterceptor)
   @SerializeOptions({ type: UserEntity })
@@ -33,22 +31,22 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
-
   @UseInterceptors(ClassSerializerInterceptor)
   @SerializeOptions({ type: UserEntity })
-  @Get('skills-weight')
+  @Get('skills-weight/:skillId')
   @ApiCreatedResponse({ type: UserEntity, isArray: true })
   findUserSkillsMoreWeight(
-    @Body() userSkillWeightDto: FindAllUserSkillsWeightDto,
+    @Param('skillId') skillId: string,
+    @Query('limit') limit: number,
   ) {
-    return this.usersService.findUserSkillsMoreWeight(userSkillWeightDto);
+    return this.usersService.findUserSkillsMoreWeight(skillId, limit);
   }
 
   @UseInterceptors(ClassSerializerInterceptor)
   @SerializeOptions({ type: UserEntity })
-  @Get('skills')
+  @Get('skills/:userId')
   @ApiCreatedResponse({ type: UserEntity, isArray: true })
-  findUserSkills(@Body() userSkillsDto: FindAllUserSkillsDto) {
+  findUserSkills(@Param() userSkillsDto: FindAllUserSkillsDto) {
     return this.usersService.findUserSkills(userSkillsDto);
   }
 

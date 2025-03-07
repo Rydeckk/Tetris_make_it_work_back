@@ -5,12 +5,10 @@ import { PrismaService } from 'src/prisma.service';
 import { Prisma } from '@prisma/client';
 import { RegisterDto } from 'src/auth/dto/auth.dto';
 import { FindAllUserSkillsDto } from './dto/find-all-user-skills.dto';
-import { FindAllUserSkillsWeightDto } from './dto/find-all-user-skills-weight.dto';
 
 @Injectable()
 export class UsersService {
   constructor(private readonly prisma: PrismaService) {}
-
 
   async registerUser(data: RegisterDto) {
     return this.prisma.users.create({
@@ -28,12 +26,10 @@ export class UsersService {
     return this.prisma.users.findMany();
   }
 
-  async findUserSkillsMoreWeight(
-    findAllUserSkillsWeightDto: FindAllUserSkillsWeightDto,
-  ) {
+  async findUserSkillsMoreWeight(skillId: string, limit: number) {
     const usersWithSkill = await this.prisma.users.findMany({
       where: {
-        userSkills: { some: { skillId: findAllUserSkillsWeightDto.skillId } },
+        userSkills: { some: { skillId: skillId } },
       },
       include: { userSkills: { include: { user: true } } },
     });
@@ -48,8 +44,8 @@ export class UsersService {
       return maxWeightB - maxWeightA;
     });
 
-    if (userWithSkillSort.length > findAllUserSkillsWeightDto.limit) {
-      return userWithSkillSort.slice(0, findAllUserSkillsWeightDto.limit);
+    if (userWithSkillSort.length > limit) {
+      return userWithSkillSort.slice(0, limit);
     }
 
     return userWithSkillSort;

@@ -18,7 +18,7 @@ import { SkillsModule } from './skills/skills.module';
     BoardsTetrisModule,
     StepBoardTetrisModule,
     NotificationModule,
-    SkillsModule
+    SkillsModule,
   ],
   controllers: [],
   providers: [

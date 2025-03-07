@@ -1,11 +1,19 @@
-import { Controller, Get, Post, Body, Param, Delete, Patch, Put } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  Patch,
+  Put,
+} from '@nestjs/common';
 import { SkillsService } from './skills.service';
 import { Skills, Prisma } from '@prisma/client';
 import { CreateSkillTask } from './dto/create-skillTask';
 import { CreateSkillDto } from './dto/create-skill';
 import { CreateUserSkill } from './dto/create-userskill';
 import { updateSkill } from './dto/updateSkill';
-
 
 /* Sequence :
 1 - Post Skill and retrieve the skillId
@@ -18,7 +26,7 @@ export class SkillsController {
   constructor(private readonly skillsService: SkillsService) {}
 
   @Get()
-  async getAllSkills(){
+  async getAllSkills() {
     return this.skillsService.getAllSkills();
   }
 
@@ -37,29 +45,29 @@ export class SkillsController {
     return this.skillsService.affectSkillUser(skillData);
   }
 
-  @Get ('byuserid/:userId')
-  async getSkillbyUserId(@Param('userId') userId: string){
+  @Get('byuserid/:userId')
+  async getSkillbyUserId(@Param('userId') userId: string) {
     return this.skillsService.getSkillbyUserId(userId);
   }
 
-  @Post ('skilltask')
-  async createskilltask(@Body() skilldata: CreateSkillTask){
-    return this.skillsService.affectSkillTask (skilldata);
+  @Post('skilltask')
+  async createskilltask(@Body() skilldata: CreateSkillTask) {
+    return this.skillsService.affectSkillTask(skilldata);
   }
 
   @Patch('change')
-  async changeSkillUser( @Body()  skillData: CreateUserSkill) {
+  async changeSkillUser(@Body() skillData: CreateUserSkill) {
     return this.skillsService.changeSkillUser(skillData);
   }
 
   @Patch('change-skills')
-  async changeSkill( @Body()  skillData: updateSkill) {
-    console.log(skillData)
+  async changeSkill(@Body() skillData: updateSkill) {
+    console.log(skillData);
     return this.skillsService.changeSkill(skillData);
   }
 
   @Delete('delete/:id')
-  async deleteSkill(@Param('id') id: string){
+  async deleteSkill(@Param('id') id: string) {
     return this.skillsService.deleteSkill(id);
   }
 }
