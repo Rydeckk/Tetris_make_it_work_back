@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { Skills, Prisma } from '@prisma/client';
-import { CreateSkillDto } from 'src/users/dto/create-skill';
+import { CreateSkillDto } from 'src/skills/dto/create-skill';
 import { UsersSkills } from '@prisma/client';
-import { CreateUserSkill } from 'src/users/dto/create-userskill';
+import { CreateUserSkill } from 'src/skills/dto/create-userskill';
+import { CreateSkillTask } from './dto/create-skillTask';
 
 @Injectable()
 export class SkillsService {
@@ -38,6 +39,13 @@ export class SkillsService {
 
     async getSkillbyUserId(userId: string){
         return this.prisma.usersSkills.findMany({where: {userId}})
+    }
+
+    async affectSkillTask (skillData: CreateSkillTask){
+        return this.prisma.skillsTasks.create({ data: {
+            skillId : skillData.skillId,
+            taskId: skillData.taskId
+        }});
     }
     /*async changeSkillUser(skillData: CreateUserSkill) {
         return this.prisma.usersSkills.update({ where: { userId: skillData.user }, data: {

@@ -3,7 +3,7 @@ import { SkillsService } from './skills.service';
 import { Skills, Prisma } from '@prisma/client';
 import { CreateSkillDto } from 'src/users/dto/create-skill';
 import { CreateUserSkill } from 'src/users/dto/create-userskill';
-
+import { CreateSkillTask } from './dto/create-skillTask';
 
 /* Sequence :
 1 - Post Skill and retrieve the skillId
@@ -38,6 +38,11 @@ export class SkillsController {
   @Get ('byuserid/:userId')
   async getSkillbyUserId(@Param('userId') userId: string){
     return this.skillsService.getSkillbyUserId(userId);
+  }
+
+  @Post ('skilltask')
+  async createskilltask(@Body() skilldata: CreateSkillTask){
+    return this.skillsService.affectSkillTask (skilldata);
   }
 
   /*@Patch('change')

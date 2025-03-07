@@ -7,6 +7,8 @@ import { TasksModule } from './tasks/tasks.module';
 import { BoardsTetrisModule } from './boards-tetris/boards-tetris.module';
 import { StepBoardTetrisModule } from './step-board-tetris/step-board-tetris.module';
 import { NotificationModule } from './notification/notification.module';
+import { SkillsController } from './skills/skills.controller';
+import { SkillsModule } from './skills/skills.module';
 
 @Module({
   imports: [
@@ -16,6 +18,7 @@ import { NotificationModule } from './notification/notification.module';
     BoardsTetrisModule,
     StepBoardTetrisModule,
     NotificationModule,
+    SkillsModule
   ],
   controllers: [],
   providers: [
