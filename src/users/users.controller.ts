@@ -16,6 +16,8 @@ import { UpdateUserDto } from './dto/user.dto';
 import { RequestWithUser } from 'src/@types/request';
 import { UserEntity } from './entities/user.entity';
 import { ApiCreatedResponse } from '@nestjs/swagger';
+import { FindAllUserSkillsDto } from './dto/find-all-user-skills.dto';
+import { FindAllUserSkillsWeightDto } from './dto/find-all-user-skills-weight.dto';
 
 @Controller('users')
 export class UsersController {
@@ -27,6 +29,24 @@ export class UsersController {
   @ApiCreatedResponse({ type: UserEntity, isArray: true })
   findAll() {
     return this.usersService.findAll();
+  }
+
+  @UseInterceptors(ClassSerializerInterceptor)
+  @SerializeOptions({ type: UserEntity })
+  @Get('skills-weight')
+  @ApiCreatedResponse({ type: UserEntity, isArray: true })
+  findUserSkillsMoreWeight(
+    @Body() userSkillWeightDto: FindAllUserSkillsWeightDto,
+  ) {
+    return this.usersService.findUserSkillsMoreWeight(userSkillWeightDto);
+  }
+
+  @UseInterceptors(ClassSerializerInterceptor)
+  @SerializeOptions({ type: UserEntity })
+  @Get('skills')
+  @ApiCreatedResponse({ type: UserEntity, isArray: true })
+  findUserSkills(@Body() userSkillsDto: FindAllUserSkillsDto) {
+    return this.usersService.findUserSkills(userSkillsDto);
   }
 
   @UseInterceptors(ClassSerializerInterceptor)
