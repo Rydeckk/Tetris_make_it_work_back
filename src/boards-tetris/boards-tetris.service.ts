@@ -31,10 +31,16 @@ export class BoardsTetrisService {
     });
   }
 
-  findAll(userId?: string) {
-    return this.prisma.boardsTetris.findMany({
+  async findAll(userId?: string) {
+    const boardTetris = await this.prisma.boardsTetris.findMany({
       where: { usersBoards: { some: { userId: userId } } },
+      include: { stepBoardTetris: { include: { tasks: true } } },
     });
+
+    return boardTetris.map((board) => ({
+      ...board,
+      stepBoardTetris: board.stepBoardTetris.sort((a, b) => a.order - b.order),
+    }));
   }
 
   findOne(boardTetrisId: string) {
