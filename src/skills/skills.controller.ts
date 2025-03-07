@@ -6,6 +6,7 @@ import { CreateSkillDto } from './dto/create-skill';
 import { CreateUserSkill } from './dto/create-userskill';
 import { updateSkill } from './dto/updateSkill';
 
+
 /* Sequence :
 1 - Post Skill and retrieve the skillId
 2 - Post an Affect request to link the skilldId to the userId, retrieve an array of SkillId

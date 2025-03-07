@@ -7,6 +7,7 @@ import { CreateUserSkill } from 'src/skills/dto/create-userskill';
 import { CreateSkillTask } from './dto/create-skillTask';
 import { updateSkill } from './dto/updateSkill';
 
+
 @Injectable()
 export class SkillsService {
     constructor(private prisma: PrismaService) { }
@@ -41,7 +42,6 @@ export class SkillsService {
     async getSkillbyUserId(userId: string){
         return this.prisma.usersSkills.findMany({where: {userId}})
     }
-
     async affectSkillTask (skillData: CreateSkillTask){
         console.log(skillData);
         return this.prisma.skillsTasks.create({ data: {
