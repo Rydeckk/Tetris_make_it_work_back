@@ -5,6 +5,7 @@ import { CreateSkillDto } from 'src/skills/dto/create-skill';
 import { UsersSkills } from '@prisma/client';
 import { CreateUserSkill } from 'src/skills/dto/create-userskill';
 import { CreateSkillTask } from './dto/create-skillTask';
+import { updateSkill } from './dto/updateSkill';
 
 @Injectable()
 export class SkillsService {
@@ -42,21 +43,25 @@ export class SkillsService {
     }
 
     async affectSkillTask (skillData: CreateSkillTask){
+        console.log(skillData);
         return this.prisma.skillsTasks.create({ data: {
             skillId : skillData.skillId,
             taskId: skillData.taskId
         }});
     }
-    /*async changeSkillUser(skillData: CreateUserSkill) {
-        return this.prisma.usersSkills.update({ where: { userId: skillData.user }, data: {
-            skillId: skillData.skill,
-            userId: skillData.user,
-            weight: skillData.weight,
-            //image: skillData.image,
-        } });
-    }*/
+    async changeSkillUser({ skillId, user, weight}: CreateUserSkill) {
+        return this.prisma.usersSkills.update({ where: { userId_skillId : {userId: user, skillId}}, 
+            data: {skillId,userId: user, weight }
+        });
+    }
 
-    /*async deleteSkill(skillData: CreateSkillDto) {
-        return this.prisma.skills.delete({ where: { name: skillData.name } });
-    }*/
+    async changeSkill({name, image, id} : updateSkill){
+        return this.prisma.skills.update({where: {id}, data: {
+            name,image
+        }})
+    }
+
+    async deleteSkill(skillId: string) {
+        return this.prisma.skills.delete({ where: { id:skillId} });
+    }
 }

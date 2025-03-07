@@ -1,6 +1,10 @@
-import { IsArray, IsNotEmpty, IsOptional, IsString, IsUUID } from "class-validator";
+import { IsArray, IsNotEmpty, IsOptional, IsPort, IsString, IsUUID } from "class-validator";
 
 export class CreateSkillDto {
+  @IsOptional()
+  @IsUUID()
+  id: string
+
   @IsNotEmpty()
   @IsString()
   name: string;

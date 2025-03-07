@@ -1,9 +1,10 @@
-import { Controller, Get, Post, Body, Param, Delete, Patch } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Patch, Put } from '@nestjs/common';
 import { SkillsService } from './skills.service';
 import { Skills, Prisma } from '@prisma/client';
-import { CreateSkillDto } from 'src/users/dto/create-skill';
-import { CreateUserSkill } from 'src/users/dto/create-userskill';
 import { CreateSkillTask } from './dto/create-skillTask';
+import { CreateSkillDto } from './dto/create-skill';
+import { CreateUserSkill } from './dto/create-userskill';
+import { updateSkill } from './dto/updateSkill';
 
 /* Sequence :
 1 - Post Skill and retrieve the skillId
@@ -45,13 +46,19 @@ export class SkillsController {
     return this.skillsService.affectSkillTask (skilldata);
   }
 
-  /*@Patch('change')
-  async changeSkillUser(@Body() skillData: CreateUserSkill) {
+  @Patch('change')
+  async changeSkillUser( @Body()  skillData: CreateUserSkill) {
     return this.skillsService.changeSkillUser(skillData);
-  }*/
+  }
 
-  /*@Delete()
-  async deleteSkill(@Body() skillData: CreateSkillDto){
-    return this.skillsService.deleteSkill(skillData);
-  }*/
+  @Patch('change-skills')
+  async changeSkill( @Body()  skillData: updateSkill) {
+    console.log(skillData)
+    return this.skillsService.changeSkill(skillData);
+  }
+
+  @Delete('delete/:id')
+  async deleteSkill(@Param('id') id: string){
+    return this.skillsService.deleteSkill(id);
+  }
 }
