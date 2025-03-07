@@ -18,6 +18,7 @@ model Users {
   name                      String
   email                     String         @unique
   password                  String
+  imageSrc                  String         @default("")
   userSkills                UsersSkills[]
   userBoards                UsersBoards[]
   userNotificationsReceived Notification[] @relation(name: "recipientNotifications")
@@ -41,7 +42,6 @@ model Skills {
   id          String        @id @default(uuid())
   name        String
   userSkill   UsersSkills[]
-  userSkillId String        @map("user_skill_id")
   skillsTasks SkillsTasks[]
 
   @@map("skills")
