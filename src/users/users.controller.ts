@@ -1,34 +1,64 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Body,
+  Param,
+  Delete,
+  ParseUUIDPipe,
+  Request,
+  Put,
+  ClassSerializerInterceptor,
+  UseInterceptors,
+  SerializeOptions,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateUserDto } from './dto/user.dto';
+import { RequestWithUser } from 'src/@types/request';
+import { UserEntity } from './entities/user.entity';
+import { ApiCreatedResponse } from '@nestjs/swagger';
+
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
-  }
 
+  @UseInterceptors(ClassSerializerInterceptor)
+  @SerializeOptions({ type: UserEntity })
   @Get()
+  @ApiCreatedResponse({ type: UserEntity, isArray: true })
   findAll() {
     return this.usersService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+
+  @UseInterceptors(ClassSerializerInterceptor)
+  @SerializeOptions({ type: UserEntity })
+  @Get(':userId')
+  @ApiCreatedResponse({ type: UserEntity })
+  findOne(@Param('userId', ParseUUIDPipe) userId: string) {
+    return this.usersService.findUser({
+      id: userId,
+    });
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
+  @UseInterceptors(ClassSerializerInterceptor)
+  @SerializeOptions({ type: UserEntity })
+  @Put(':userId')
+  update(
+    @Param('userId') userId: string,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
+    return this.usersService.update({
+      ...updateUserDto,
+      userId,
+    });
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  @UseInterceptors(ClassSerializerInterceptor)
+  @SerializeOptions({ type: UserEntity })
+  @Delete()
+  deleteCurrentUser(@Request() req: RequestWithUser) {
+    return this.usersService.deleteCurrentUser(req.user?.sub);
   }
 }
