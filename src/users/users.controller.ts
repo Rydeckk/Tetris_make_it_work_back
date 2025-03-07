@@ -31,6 +31,16 @@ export class UsersController {
 
   @UseInterceptors(ClassSerializerInterceptor)
   @SerializeOptions({ type: UserEntity })
+  @Get('current-user')
+  @ApiCreatedResponse({ type: UserEntity })
+  findCurrentUser(@Request() req: RequestWithUser) {
+    return this.usersService.findUser({
+      id: req.user.sub,
+    });
+  }
+
+  @UseInterceptors(ClassSerializerInterceptor)
+  @SerializeOptions({ type: UserEntity })
   @Get(':userId')
   @ApiCreatedResponse({ type: UserEntity })
   findOne(@Param('userId', ParseUUIDPipe) userId: string) {
