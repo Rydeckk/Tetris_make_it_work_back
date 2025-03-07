@@ -19,9 +19,11 @@ import { ApiCreatedResponse } from '@nestjs/swagger';
 import { FindAllUserSkillsDto } from './dto/find-all-user-skills.dto';
 import { FindAllUserSkillsWeightDto } from './dto/find-all-user-skills-weight.dto';
 
+
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
+
 
   @UseInterceptors(ClassSerializerInterceptor)
   @SerializeOptions({ type: UserEntity })
@@ -30,6 +32,7 @@ export class UsersController {
   findAll() {
     return this.usersService.findAll();
   }
+
 
   @UseInterceptors(ClassSerializerInterceptor)
   @SerializeOptions({ type: UserEntity })

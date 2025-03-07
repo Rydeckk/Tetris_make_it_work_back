@@ -32,7 +32,9 @@ model UsersSkills {
   userId  String @map("user_id")
   skill   Skills @relation(fields: [skillId], references: [id], onDelete: Cascade)
   skillId String @map("skill_id")
+
   weight  Int    @default(0)
+
 
   @@id([userId, skillId])
   @@map("users_skills")
@@ -43,7 +45,7 @@ model Skills {
   name        String
   userSkill   UsersSkills[]
   skillsTasks SkillsTasks[]
-
+  image      String       @default("https://cdn.iconscout.com/icon/free/png-256/programming-80-1175202.png")
   @@map("skills")
 }
 

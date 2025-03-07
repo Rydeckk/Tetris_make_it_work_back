@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+
 import { UpdateUserDto } from './dto/user.dto';
 import { PrismaService } from 'src/prisma.service';
 import { Prisma } from '@prisma/client';
@@ -9,6 +10,7 @@ import { FindAllUserSkillsWeightDto } from './dto/find-all-user-skills-weight.dt
 @Injectable()
 export class UsersService {
   constructor(private readonly prisma: PrismaService) {}
+
 
   async registerUser(data: RegisterDto) {
     return this.prisma.users.create({
