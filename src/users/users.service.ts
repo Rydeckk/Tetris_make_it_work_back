@@ -33,7 +33,7 @@ export class UsersService {
       where: {
         userSkills: { some: { skillId: findAllUserSkillsWeightDto.skillId } },
       },
-      include: { userSkills: true },
+      include: { userSkills: { include: { user: true } } },
     });
 
     const userWithSkillSort = usersWithSkill.sort((a, b) => {
@@ -56,7 +56,7 @@ export class UsersService {
   async findUserSkills(findAllUserSkillsDto: FindAllUserSkillsDto) {
     return this.prisma.users.findFirst({
       where: { id: findAllUserSkillsDto.userId },
-      include: { userSkills: true },
+      include: { userSkills: { include: { skill: true } } },
     });
   }
 
