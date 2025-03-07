@@ -32,10 +32,18 @@ export class BoardsTetrisController {
 
   @UseInterceptors(ClassSerializerInterceptor)
   @SerializeOptions({ type: BoardsTetrisEntity })
+  @Get('mine')
+  @ApiCreatedResponse({ type: BoardsTetrisEntity, isArray: true })
+  findAllMine(@Request() req: RequestWithUser) {
+    return this.boardsTetrisService.findAll(req.user.sub);
+  }
+
+  @UseInterceptors(ClassSerializerInterceptor)
+  @SerializeOptions({ type: BoardsTetrisEntity })
   @Get()
   @ApiCreatedResponse({ type: BoardsTetrisEntity, isArray: true })
-  findAll(@Request() req: RequestWithUser) {
-    return this.boardsTetrisService.findAll(req.user.sub);
+  findAll() {
+    return this.boardsTetrisService.findAll();
   }
 
   @UseInterceptors(ClassSerializerInterceptor)
