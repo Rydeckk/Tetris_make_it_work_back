@@ -47,7 +47,10 @@ export class UsersController {
   @ApiCreatedResponse({ type: UserEntity, isArray: true })
   findUserSkills(@Body() userSkillsDto: FindAllUserSkillsDto) {
     return this.usersService.findUserSkills(userSkillsDto);
+  }
 
+  @UseInterceptors(ClassSerializerInterceptor)
+  @SerializeOptions({ type: UserEntity })
   @Get('current-user')
   @ApiCreatedResponse({ type: UserEntity })
   findCurrentUser(@Request() req: RequestWithUser) {
