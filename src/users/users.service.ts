@@ -26,7 +26,7 @@ export class UsersService {
     return this.prisma.users.findMany();
   }
 
-  async findUserSkillsMoreWeight(skillId: string, limit: number) {
+  async findUserSkillsMoreWeight(skillId: string, limit: number = 3) {
     const usersWithSkill = await this.prisma.users.findMany({
       where: {
         userSkills: { some: { skillId: skillId } },
