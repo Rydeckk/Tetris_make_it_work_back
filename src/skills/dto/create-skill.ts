@@ -1,11 +1,4 @@
-import {
-  IsArray,
-  IsNotEmpty,
-  IsOptional,
-  IsPort,
-  IsString,
-  IsUUID,
-} from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
 
 export class CreateSkillDto {
   @IsOptional()
@@ -19,8 +12,4 @@ export class CreateSkillDto {
   @IsNotEmpty()
   @IsString()
   image: string;
-
-  @IsArray()
-  @IsUUID('4', { each: true })
-  users: string[];
 }

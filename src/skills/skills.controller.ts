@@ -6,10 +6,8 @@ import {
   Param,
   Delete,
   Patch,
-  Put,
 } from '@nestjs/common';
 import { SkillsService } from './skills.service';
-import { Skills, Prisma } from '@prisma/client';
 import { CreateSkillTask } from './dto/create-skillTask';
 import { CreateSkillDto } from './dto/create-skill';
 import { CreateUserSkill } from './dto/create-userskill';
