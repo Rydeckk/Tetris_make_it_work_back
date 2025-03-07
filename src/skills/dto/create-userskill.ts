@@ -14,5 +14,4 @@ export class CreateUserSkill{
     @IsUUID("4", { each: true })
     skillId: string;
     
-    
   }
